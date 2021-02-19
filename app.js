@@ -8,21 +8,31 @@ function getQueries() {
     location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]})
     return queryDict;
 }
-var apiKey = "5c48d29c9ee04b5e8f4bb13377fa8101";
 
 async function getToken() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST","https://www.bungie.net/platform/app/oauth/token/")
-    xhr.setRequestHeader("X-API-Key", apiKey);
-    xhr.onreadystatechange = function(){
-        if(this.readyState === 4 && this.status === 200){
-         var json = JSON.parse(this.responseText);
-         return json;
-        } else {
-            return this.status;
-        }
+    var details = {
+        'grant_type': 'authorization_code',
+        'code': String(getQueries().code);
+    };
+
+    var formBody = [];
+    for (var property in details) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(details[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
     }
-    xhr.send("grant_type=authorization_code&code=" + getQueries().code);
+    const response = await fetch("https://www.bungie.net/platform/app/oauth/token/", {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-API-Key': "5c48d29c9ee04b5e8f4bb13377fa8101"
+        },
+        body: formBody
+    });
+    return response;
 }
 
 if(getQueries().code == undefined) {
