@@ -24,7 +24,8 @@ async function getToken() {
 }
 
 if(getQueries().code == undefined) {
-    $("login").css('display',block);
+    $("#login").css('display',"block");
 } else {
-    $("login").css('display',block);
+    $("#login").css('display',"none");
+    console.log(getToken());
 }
