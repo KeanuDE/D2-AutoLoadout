@@ -10,17 +10,6 @@ function getQueries() {
 }
 
 async function getToken() {
-    var details = {
-        'grant_type': 'authorization_code',
-        'code': String(getQueries().code)
-    };
-
-    var formBody = [];
-    for (var property in details) {
-        var encodedKey = encodeURIComponent(property);
-        var encodedValue = encodeURIComponent(details[property]);
-        formBody.push(encodedKey + "=" + encodedValue);
-    }
     const response = await fetch("https://www.bungie.net/platform/app/oauth/token/", {
         method: 'POST',
         mode: 'no-cors',
@@ -29,7 +18,10 @@ async function getToken() {
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-API-Key': "5c48d29c9ee04b5e8f4bb13377fa8101"
         },
-        body: formBody
+        body: new URLSearchParams({
+            'grant_type': 'authorization_code',
+            'code': String(getQueries().code)
+        })
     });
     return response;
 }
