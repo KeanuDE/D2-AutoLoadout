@@ -12,7 +12,7 @@ function getQueries() {
 async function getToken() {
     var details = {
         'grant_type': 'authorization_code',
-        'code': String(getQueries().code);
+        'code': String(getQueries().code)
     };
 
     var formBody = [];
