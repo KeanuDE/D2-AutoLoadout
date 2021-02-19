@@ -12,8 +12,9 @@ function getQueries() {
 async function getToken() {
     const response = await fetch("https://www.bungie.net/platform/app/oauth/token/", {
         method: 'POST',
-        mode: 'no-cors',
+        mode: 'cors',
         cache: 'no-cache',
+        credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-API-Key': "5c48d29c9ee04b5e8f4bb13377fa8101"
